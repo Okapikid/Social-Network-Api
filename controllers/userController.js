@@ -10,7 +10,7 @@ module.exports = {
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .populate({ path: "friends", select: "-__v" })
-      .populate({ path: "thoughts", select: "-__v" })
+      .populate({ path: "thought", select: "-__v" })
       .then((user) =>
         !user
           ? res.status(404).json({ message: "User does not exist" })
