@@ -9,12 +9,13 @@ module.exports = {
   },
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select("-__v")
-      .then(async (user) => {
+      .populate({ path: "friends", select: "-__v" })
+      .populate({ path: "thoughts", select: "-__v" })
+      .then((user) =>
         !user
-          ? res.status(400).json({ message: "User does not exist" })
-          : res.json(user);
-      })
+          ? res.status(404).json({ message: "User does not exist" })
+          : res.json(user)
+      )
       .catch((err) => {
         return res.status(500).json(err);
       });
@@ -49,29 +50,25 @@ module.exports = {
   addFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: req.body }, username: req.body.username },
-      { runValidators: true, new: true },
-      function (err) {
-        if (err) {
-          res.status(500).json(err);
-        } else {
-          res.status(200).json({ message: "Friend added" });
-        }
-      }
-    );
+      { $push: { friends: req.params.friendId } }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "User does not exist" })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
   },
   deleteFriend(req, res) {
-    User.findOneAndDelete(
-      { _id: req.params.thoughtId },
-      { $pull: { friends: req.body } },
-      { new: true },
-      function (err) {
-        if (err) {
-          res.status(500).json(err);
-        } else {
-          res.status(200).json({ message: "Friend deleted" });
-        }
-      }
-    );
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "User does not exist" })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
   },
 };
