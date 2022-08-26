@@ -31,4 +31,4 @@ The GitHub repository for this project can be found here: [link to GitHub reposi
 
 ## Demo
 
-Demo video can be found here: ![Demonstration video](https://drive.google.com/file/d/1Pxxjrc6xHeiDmkylqzPA4K146rBZTrrY/view?usp=sharing)
+Demo video can be found here: [Demonstration video](https://drive.google.com/file/d/1Pxxjrc6xHeiDmkylqzPA4K146rBZTrrY/view?usp=sharing)
