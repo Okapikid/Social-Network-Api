@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const reactionSchema = require("./Reaction");
+const reactionSchema = require("./reaction");
 
 const thoughtSchema = new Schema(
   {
@@ -29,7 +29,7 @@ const thoughtSchema = new Schema(
 
 // RETRIEVES THE LENGTH OF THE THOUGHT'S REACTIONS ARRAY
 thoughtSchema.virtual("reactionCount").get(function () {
-  return `${this.reactions.length}`;
+  return this.reactions.length;
 });
 
 const Thought = model("thought", thoughtSchema);
